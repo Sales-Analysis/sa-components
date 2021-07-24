@@ -7,9 +7,11 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "plop": "plop"
   },
   "dependencies": {
+    "@sales-analysis/sa-frontend-configs": "0.1.2",
     "classnames": "^2.3.1",
     "formik": "^2.2.9",
     "node-sass": "^4.14.1",
@@ -35,6 +37,7 @@
     "@types/react-dom": "^17.0.0",
     "@typescript-eslint/parser": "^4.28.3",
     "eslint-plugin-simple-import-sort": "^7.0.0",
+    "plop": "^2.7.4",
     "stylelint-config-standard": "^22.0.0"
   },
   "browserslist": {
