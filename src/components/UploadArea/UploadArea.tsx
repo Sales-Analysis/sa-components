@@ -15,17 +15,28 @@ interface IUploadAreaProps {
 
 export const UploadArea = ({ acceptTypes, sizeLimits }: IUploadAreaProps) => {
   const triggeredInput = useRef<HTMLInputElement>(null);
-  const [onDrag, setOnDrag] = useState(false);
-  const [size, setSize] = useState(false);
-  const [download, setDownload] = useState(false);
-  const [uploading, setUploading] = useState(false);
-  const [fileName, setFileName] = useState("");
-  const [fileSize, setFileSize] = useState(0);
+
+  const [state, setState] = useState({
+    onDrag: false,
+    size: false,
+    download: false,
+    uploading: false,
+    fileName: "",
+    fileSize: 0,
+  });
+
+  // onDrag отвечает за поведение фона при drag and drop, затемняя его при наведении
+  // size - отвечает за отрисовку области загрузки при проверке файла на его размер
+  // download - перерисовка компонента при удачной загрузке файла
+  // fileName - состояние, в котором хранится имя текущего файла, отображается при загрузке и успешном добавлении файла
+  // fileSize - состоние, в котором хранится размер текущего файла, отображается при загрузке и успешном добавлении файла
 
   const options = {
     multiple: false,
     accept: acceptTypes.join(","),
   };
+
+  // Приводим размеры к байтам
 
   const makeSizeInBytes = (limits: { size: number; type: string }) => {
     if (limits.type === "Mb" || limits.type === "MB") {
@@ -37,6 +48,8 @@ export const UploadArea = ({ acceptTypes, sizeLimits }: IUploadAreaProps) => {
     }
   };
 
+  // Проверка файла на тип расширения
+
   const typeCheck = (fileName: string) => {
     const types = acceptTypes;
     let valid = false;
@@ -44,63 +57,77 @@ export const UploadArea = ({ acceptTypes, sizeLimits }: IUploadAreaProps) => {
       if (valid) return true;
       valid = fileName.includes(elem);
     });
-    return valid;
+    return false;
   };
+
+  // Загрузка файла
 
   async function fetchFiles() {
     console.log("Start uploading...");
 
     await delay(4000);
-    setDownload(true);
+    setState((prev) => {
+      return { ...prev, download: true };
+    });
 
     console.log("Done! File uploaded");
   }
 
+  // приводим state в первоначальное состояние
+
   const clearState = () => {
-    setOnDrag(false);
-    setSize(false);
-    setDownload(false);
-    setUploading(false);
-    setFileName("");
-    setFileSize(0);
+    setState({
+      onDrag: false,
+      size: false,
+      download: false,
+      uploading: false,
+      fileName: "",
+      fileSize: 0,
+    });
   };
+
   // ф-я триггер для кастомной кнопки, при клике на нее срабатывает ф-я у input
   const openTrigger = () => triggeredInput.current?.click();
 
   // пользователь через input выбирает файл, срабатывает данная функция
-  const changeHandler = ({ target }: ChangeEvent<HTMLInputElement>) => {
+  const changeHandler = ({ target }: ChangeEvent<HTMLInputElement> | any) => {
     if (target?.files?.length) {
       if (target.files[0].size < makeSizeInBytes(sizeLimits)) {
-        setUploading(true);
-        setFileName(target.files[0].name);
-        setFileSize(Math.round(target.files[0].size / 1048576));
-        setSize(false);
+        setState((prev) => {
+          return {
+            ...prev,
+            uploading: true,
+            fileName: target.files[0].name,
+            fileSize: Math.round(target.files[0].size / 1048576),
+            size: false,
+          };
+        });
         fetchFiles();
       } else {
-        setSize(true);
+        setState((prev) => {
+          return { ...prev, size: true };
+        });
       }
     }
   };
 
   // Две функции, которые обрабатывают события наведения на область загрузки и выхода из нее
-  // onDrag отвечает за поведение фона при drag and drop, затемняя его при наведении
 
   const onDragStartHandler = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    setOnDrag(true);
+    setState((prev) => {
+      return { ...prev, onDrag: true };
+    });
   };
 
   const onDragLeaveHandler = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    setOnDrag(false);
+    setState((prev) => {
+      return { ...prev, onDrag: false };
+    });
   };
 
   // Обработка drag & drop после того, как пользователь отпустил файл области
-  // setSize - отвечает за отрисовку области загрузки при проверке файла на его размер
-  // setDownload - перерисовка компонента при удачной загрузке файла
-  // setFileName - состояние, в котором хранится имя текущего файла, отображается при загрузке и успешном добавлении файла
-  // setFileSize - состоние, в котором хранится размер текущего файла, отображается при загрузке и успешном добавлении файла
-  // UploadFunction() - обособленная функция, которая делает запрос на сервер и отвечает за отрисовку компонента в момент загрузки файла
 
   const onDropHandler = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -112,30 +139,39 @@ export const UploadArea = ({ acceptTypes, sizeLimits }: IUploadAreaProps) => {
       firstElem.size < makeSizeInBytes(sizeLimits) &&
       typeCheck(firstElem.name)
     ) {
-      setSize(false);
-      setUploading(true);
-      setFileSize(Math.round(firstElem.size / 1048576));
-      setFileName(firstElem.name);
+      setState((prev) => {
+        return {
+          ...prev,
+          size: false,
+          uploading: true,
+          fileSize: Math.round(firstElem.size / 1048576),
+          fileName: firstElem.name,
+        };
+      });
 
       fetchFiles();
 
       const formData = new FormData();
       formData.append("file", firstElem);
     } else {
-      setSize(true);
+      setState((prev) => {
+        return { ...prev, size: true };
+      });
     }
 
-    setOnDrag(false);
+    setState((prev) => {
+      return { ...prev, onDrag: false };
+    });
   };
 
   return (
     <>
-      {download ? (
+      {state.download ? (
         <div className={styles.container}>
           <div className={styles.file_info}>
             <div>
-              <p className={styles.file_name}>{fileName}</p>
-              <p className={styles.file_size}>{fileSize} Мб</p>
+              <p className={styles.file_name}>{state.fileName}</p>
+              <p className={styles.file_size}>{state.fileSize} Мб</p>
             </div>
             <button className={styles.deleteFile} onClick={clearState}></button>
           </div>
@@ -143,14 +179,14 @@ export const UploadArea = ({ acceptTypes, sizeLimits }: IUploadAreaProps) => {
             <p className={styles.status_text}>Файл успешно загружен</p>
           </div>
         </div>
-      ) : uploading ? (
+      ) : state.uploading ? (
         <div className={styles.container}>
           <div className={styles.uploading_file_info}>
             <div className={styles.uploading_file_container}>
               <Loader />
               <div className={styles.uploading_file_container_div}>
-                <p className={styles.file_name}>{fileName}</p>
-                <p className={styles.file_size}>{fileSize} Мб</p>
+                <p className={styles.file_name}>{state.fileName}</p>
+                <p className={styles.file_size}>{state.fileSize} Мб</p>
               </div>
             </div>
 
@@ -163,8 +199,8 @@ export const UploadArea = ({ acceptTypes, sizeLimits }: IUploadAreaProps) => {
       ) : (
         <div
           className={classNames(
-            size ? styles.sizeProblems : null,
-            onDrag ? styles.onDrag : null,
+            state.size ? styles.sizeProblems : null,
+            state.onDrag ? styles.onDrag : null,
             styles.UploadArea
           )}
           onDragStart={(e) => onDragStartHandler(e)}
@@ -185,7 +221,7 @@ export const UploadArea = ({ acceptTypes, sizeLimits }: IUploadAreaProps) => {
           <button className={styles.btn} onClick={openTrigger}>
             Выбрать файл
           </button>
-          {size ? (
+          {state.size ? (
             <p className={styles.sizeWarning}>
               Размер файла не должен превышать{" "}
               {`${makeSizeInBytes(sizeLimits) / 1048576} `}
