@@ -72,8 +72,8 @@
   border-radius: 2px;
   padding: 0 17px 0 75px;
   margin-bottom: 15px;
-  background: url("./img/xls.svg") no-repeat 17px center,
-    url("./img/delete.png") no-repeat 650px center;
+  background: url("./icons/xls.svg") no-repeat 17px center,
+    url("./icons/delete.png") no-repeat 650px center;
 }
 
 .uploading_file_info {
@@ -85,7 +85,7 @@
   border-radius: 2px;
   padding: 0 17px;
   margin-bottom: 15px;
-  background: url("./img/delete.png") no-repeat 650px center;
+  background: url("./icons/delete.png") no-repeat 650px center;
 }
 
 .status {
@@ -94,7 +94,7 @@
   display: flex;
   align-items: center;
   padding-left: 40px;
-  background: url(./img/tick.png) no-repeat 17px center;
+  background: url(./icons/tick.png) no-repeat 17px center;
 }
 .uploading_status {
   height: 37px;
