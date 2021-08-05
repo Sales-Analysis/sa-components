@@ -14,11 +14,17 @@ const Template: ComponentStory<typeof UploadArea> = (args) => (
 export const ExcelCSV300Mb = Template.bind({});
 ExcelCSV300Mb.args = {
   acceptTypes: [".csv", ".xls"],
-  maxSizeOfFileInBytes: 314572800,
+  sizeLimits: {
+    size: 300,
+    type: "Mb",
+  },
 };
 
 export const WordPng100Mb = Template.bind({});
 WordPng100Mb.args = {
   acceptTypes: [".doc", ".png"],
-  maxSizeOfFileInBytes: 104857600,
+  sizeLimits: {
+    size: 100,
+    type: "Mb",
+  },
 };

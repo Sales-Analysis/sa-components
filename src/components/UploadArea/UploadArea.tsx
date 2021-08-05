@@ -7,13 +7,13 @@ import styles from "./UploadArea.module.scss";
 
 interface IUploadAreaProps {
   acceptTypes: string[];
-  maxSizeOfFileInBytes: number;
+  sizeLimits: {
+    size: number;
+    type: string;
+  };
 }
 
-export const UploadArea = ({
-  acceptTypes,
-  maxSizeOfFileInBytes,
-}: IUploadAreaProps) => {
+export const UploadArea = ({ acceptTypes, sizeLimits }: IUploadAreaProps) => {
   const triggeredInput = useRef<HTMLInputElement>(null);
   const [onDrag, setOnDrag] = useState(false);
   const [size, setSize] = useState(false);
@@ -25,6 +25,16 @@ export const UploadArea = ({
   const options = {
     multiple: false,
     accept: acceptTypes.join(","),
+  };
+
+  const makeSizeInBytes = (limits: { size: number; type: string }) => {
+    if (limits.type === "Mb" || limits.type === "MB") {
+      return limits.size * 1048576;
+    } else if (limits.type === "Kb" || limits.type === "KB") {
+      return limits.size * 1024;
+    } else {
+      return limits.size;
+    }
   };
 
   const typeCheck = (fileName: string) => {
@@ -60,7 +70,7 @@ export const UploadArea = ({
   // пользователь через input выбирает файл, срабатывает данная функция
   const changeHandler = ({ target }: ChangeEvent<HTMLInputElement>) => {
     if (target?.files?.length) {
-      if (target.files[0].size < maxSizeOfFileInBytes) {
+      if (target.files[0].size < makeSizeInBytes(sizeLimits)) {
         setUploading(true);
         setFileName(target.files[0].name);
         setFileSize(Math.round(target.files[0].size / 1048576));
@@ -99,7 +109,7 @@ export const UploadArea = ({
     const firstElem = files[0];
     if (
       files.length === 1 &&
-      firstElem.size < maxSizeOfFileInBytes &&
+      firstElem.size < makeSizeInBytes(sizeLimits) &&
       typeCheck(firstElem.name)
     ) {
       setSize(false);
@@ -178,7 +188,7 @@ export const UploadArea = ({
           {size ? (
             <p className={styles.sizeWarning}>
               Размер файла не должен превышать{" "}
-              {`${maxSizeOfFileInBytes / 1048576} `}
+              {`${makeSizeInBytes(sizeLimits) / 1048576} `}
               Мб, а доступные расширения -{` ${options.accept}`}. Выберите
               другой файл и повторите загрузку
             </p>
