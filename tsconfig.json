@@ -1,4 +1,6 @@
 {
+  "extends": "@sales-analysis/sa-frontend-configs/tsconfig",
+  "shouldExtractLiteralValuesFromEnum": true,
   "compilerOptions": {
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
@@ -18,5 +20,7 @@
     "baseUrl": "src",
     "downlevelIteration": true
   },
-  "include": ["src"]
+
+  "include": ["src"],
+  "exclude": ["node_modules", "**/dist/**/*"]
 }
