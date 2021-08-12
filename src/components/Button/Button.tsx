@@ -5,9 +5,10 @@ import styles from "./Button.module.scss";
 
 interface IBtnItemProps {
   text: string;
-  className: string;
+  type: 'Primary' | 'Secondary';
+  className?: string;
 }
 
-export const Button = ({ className, text }: IBtnItemProps) => (
-  <div className={classnames(styles.Button, styles[className])}>{text}</div>
+export const Button = ({ className, text, type }: IBtnItemProps) => (
+  <div className={classnames(styles.Button, styles[type])}>{text}</div>
 );
