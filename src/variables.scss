@@ -1,0 +1,62 @@
+// color types
+
+$primary: #002033;
+$link: #0078d2;
+$link-hover: #008efa;
+$decorative: #2584ff;
+$secondary: rgba(0, 32, 51, 0.6);
+
+// bg for blocks
+
+$default-bg: #ffffff;
+$secondary-bg: #ecf1f4;
+$border-bg: rgba(0, 65, 102, 0.2);
+
+// size for titles
+
+$h1: 100px;
+$h2: 80px;
+$h3: 32px;
+
+// size for text
+
+$fs24: 24px;
+$fs24b: 24px;
+$fs16: 16px;
+$fs14: 14px;
+
+@mixin title($size) {
+  font-style: normal;
+  font-weight: 700;
+  font-size: $size;
+  line-height: 120%;
+  color: $primary;
+  text-align: center;
+}
+
+@mixin font($fs) {
+  font-style: normal;
+  font-weight: 400;
+  line-height: 160%;
+  font-size: $fs;
+  align-items: center;
+  color: $primary;
+}
+
+@mixin font24b {
+  font-style: normal;
+  font-weight: 600;
+  line-height: 160%;
+  font-size: 24px;
+  align-items: center;
+  color: $primary;
+}
+
+@mixin font24 {
+  font-style: normal;
+  font-weight: 600;
+  line-height: 170%;
+  font-size: 24px;
+  align-items: center;
+  color: $primary;
+}
