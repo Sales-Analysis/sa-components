@@ -8,6 +8,7 @@ interface IDropdownItemProps {
   dropdownName: string;
   labelText: string;
   optionsArray: { value: string; label: string }[];
+  indexOfDefaultValue?: number;
   handleChange: (arg: any) => void;
 }
 const DropdownIndicator = (props: any) => {
@@ -35,6 +36,7 @@ export function Dropdown({
   dropdownName,
   labelText,
   optionsArray,
+  indexOfDefaultValue = 0,
   handleChange,
 }: IDropdownItemProps) {
   return (
@@ -45,7 +47,7 @@ export function Dropdown({
         styles={rewrittenStyles}
         className={styles.Select}
         name={dropdownName}
-        defaultValue={optionsArray[0]}
+        defaultValue={optionsArray[indexOfDefaultValue]}
         options={optionsArray}
         onChange={handleChange}
       />
