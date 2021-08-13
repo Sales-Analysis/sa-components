@@ -1,9 +1,9 @@
 import React from "react";
 import classnames from "classnames";
 
-import styles from "./Button.module.scss";
+import styles from './Button.module.css';
 
-interface IBtnItemProps {
+interface IProps {
   text: string;
   type: 'Primary' | 'Secondary';
   className?: string;
@@ -11,4 +11,3 @@ interface IBtnItemProps {
 
 export const Button = ({ className, text, type }: IBtnItemProps) => (
   <div className={classnames(styles.Button, styles[type])}>{text}</div>
-);

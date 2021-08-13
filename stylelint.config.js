@@ -1,7 +1,3 @@
 module.exports = {
-  extends: 'stylelint-config-standard',
-  rules: {
-    'at-rule-no-unknown': null,
-    'value-keyword-case': null,
-  },
+  extends: '@sales-analysis/sa-frontend-configs/stylelintrc.js',
 };
