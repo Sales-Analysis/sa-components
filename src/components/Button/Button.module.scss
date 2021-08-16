@@ -14,24 +14,24 @@ $blue-hover: #0091ff;
   border-radius: 2px;
   padding: 10px;
   cursor: pointer;
-}
 
-.Primary {
-  background-color: $blue;
-  color: $white;
+  &-primary {
+    background-color: $blue;
+    color: $white;
 
-  &:hover {
-    background-color: $blue-hover;
+    &:hover {
+      background-color: $blue-hover;
+    }
   }
-}
 
-.Secondary {
-  background-color: transparent;
-  color: $blue;
-  border: 1px solid $blue;
+  &-secondary {
+    background-color: transparent;
+    color: $blue;
+    border: 1px solid $blue;
 
-  &:hover {
-    color: $blue-hover;
-    border: 1px solid $blue-hover;
+    &:hover {
+      color: $blue-hover;
+      border: 1px solid $blue-hover;
+    }
   }
 }
