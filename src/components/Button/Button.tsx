@@ -1,11 +1,11 @@
-import React from "react";
-import classnames from "classnames";
+import React from 'react';
+import classnames from 'classnames';
 
-import styles from "./Button.module.scss";
+import styles from './Button.module.scss';
 
 interface IBtnItemProps {
   text: string;
-  type: "primary" | "secondary";
+  type: 'primary' | 'secondary';
   className?: string;
 }
 
