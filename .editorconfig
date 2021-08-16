@@ -13,6 +13,7 @@ end_of_line = lf
 charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
+quote_type = single
 
 ij_javascript_force_quote_style = true
 ij_typescript_force_quote_style = true

@@ -17,23 +17,19 @@
   padding: 10px;
   cursor: pointer;
 }
-
-.Primary {
+.Button-primary {
   background-color: var(--blue);
-  color: var(--white);
-
-  &:hover {
-    background-color: var(--blue-hover);
-  }
+  color: #fff;
 }
-
-.Secondary {
+.Button-primary:hover {
+  background-color: var(--blue-hover);
+}
+.Button-secondary {
   background-color: transparent;
   color: var(--blue);
   border: 1px solid var(--blue);
-
-  &:hover {
-    color: var(--blue-hover);
-    border: 1px solid var(--blue-hover);
-  }
+}
+.Button-secondary:hover {
+  color: var(--blue-hover);
+  border: 1px solid var(--blue-hover);
 }
