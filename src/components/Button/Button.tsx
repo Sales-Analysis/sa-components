@@ -1,7 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 
-import styles from './Button.module.scss';
+import styles from './Button.module.css';
 
 interface IBtnItemProps {
   text: string;
