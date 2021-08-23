@@ -1,7 +1,7 @@
-import Select, { components } from "react-select";
-import caret from "./assets/caret.svg";
+import Select, { components } from 'react-select';
+import caret from './assets/caret.svg';
 
-import styles from "./Dropdown.module.scss";
+import styles from './Dropdown.module.css';
 
 interface IDropdownItemProps {
   active: boolean;
@@ -23,12 +23,12 @@ const DropdownIndicator = (props: any) => {
 const rewrittenStyles = {
   control: (provided: any) => ({
     ...provided,
-    border: "1px solid rgba(0, 66, 105, 0,28)",
-    borderRadius: "2px",
-    marginTop: "4px",
+    border: '1px solid rgba(0, 66, 105, 0,28)',
+    borderRadius: '2px',
+    marginTop: '4px',
   }),
   indicatorSeparator: () => ({
-    display: "none",
+    display: 'none',
   }),
 };
 export function Dropdown({
